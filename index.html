@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>求职者个人名片</title>
+    <!-- 引入外部库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">个人名片</h1>
+            <div class="nav-buttons">
+                <button id="export-pdf" class="btn btn-primary">导出PDF</button>
+                <button id="generate-qr" class="btn btn-secondary">生成二维码</button>
+                <button id="ats-optimize" class="btn btn-secondary">ATS优化</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 二维码模态框 -->
+    <div id="qr-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>网站二维码</h3>
+            <div id="qrcode"></div>
+            <p>扫描二维码访问个人名片网站</p>
+        </div>
+    </div>
+
+    <!-- ATS优化模态框 -->
+    <div id="ats-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>ATS关键词匹配优化</h3>
+            <div class="ats-container">
+                <div class="ats-input">
+                    <h4>目标岗位JD</h4>
+                    <textarea id="jd-text" placeholder="请粘贴目标岗位的JD内容..."></textarea>
+                </div>
+                <div class="ats-result">
+                    <h4>匹配结果</h4>
+                    <div id="match-result"></div>
+                    <button id="apply-ats" class="btn btn-primary">应用优化</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <main class="container">
+        <!-- 个人信息 -->
+        <section id="personal-info" class="section animate">
+            <div class="section-header">
+                <h2>个人信息</h2>
+            </div>
+            <div class="personal-content">
+                <div class="basic-info">
+                    <h3 class="name">张三</h3>
+                    <p class="title">前端开发工程师</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="icon">📞</span>
+                            <span>138-0013-8000</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="icon">📧</span>
+                            <span>zhangsan@example.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="icon">📍</span>
+                            <span>北京市</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/zhangsan" target="_blank" class="social-link">GitHub</a>
+                        <a href="https://linkedin.com/in/zhangsan" target="_blank" class="social-link">LinkedIn</a>
+                        <a href="https://blog.example.com" target="_blank" class="social-link">博客</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 求职意向 -->
+        <section id="career-objective" class="section animate">
+            <div class="section-header">
+                <h2>求职意向</h2>
+            </div>
+            <div class="objective-content">
+                <h3>前端开发工程师</h3>
+                <p>寻求互联网公司前端开发岗位，专注于用户体验和性能优化，熟练掌握现代前端技术栈，具备良好的团队协作能力和问题解决能力。</p>
+            </div>
+        </section>
+
+        <!-- 教育经历 -->
+        <section id="education" class="section animate">
+            <div class="section-header">
+                <h2>教育经历</h2>
+            </div>
+            <div class="education-content">
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <h3>北京大学</h3>
+                        <span class="edu-date">2019.09 - 2023.06</span>
+                    </div>
+                    <p class="edu-major">计算机科学与技术 | 本科</p>
+                    <p class="edu-gpa">GPA: 3.8/4.0</p>
+                    <p class="edu-achievements">
+                        • 获得国家奖学金
+                        • 担任计算机协会主席
+                        • 发表2篇学术论文
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 实习/项目经历 -->
+        <section id="experience" class="section animate">
+            <div class="section-header">
+                <h2>实习/项目经历</h2>
+            </div>
+            <div class="experience-content">
+                <!-- 实习经历 -->
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <h3>字节跳动</h3>
+                        <span class="exp-date">2022.06 - 2022.09</span>
+                    </div>
+                    <p class="exp-position">前端开发实习生</p>
+                    <ul class="exp-achievements">
+                        <li>• 参与公司核心产品前端开发，负责3个模块的功能实现</li>
+                        <li>• 优化页面加载速度，将首屏加载时间从3.2秒降低到1.5秒</li>
+                        <li>• 修复了20+个线上bug，提高了产品稳定性</li>
+                        <li>• 参与团队代码评审，提出了15+个改进建议</li>
+                    </ul>
+                </div>
+
+                <!-- 项目经历 -->
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <h3>个人博客系统</h3>
+                        <span class="exp-date">2021.10 - 2022.05</span>
+                    </div>
+                    <p class="exp-position">独立开发</p>
+                    <ul class="exp-achievements">
+                        <li>• 使用React+Node.js+MongoDB技术栈开发</li>
+                        <li>• 实现了文章发布、评论、分类、标签等功能</li>
+                        <li>• 集成了Markdown编辑器，支持代码高亮</li>
+                        <li>• 部署到阿里云服务器，访问量突破1000+</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技能清单 -->
+        <section id="skills" class="section animate">
+            <div class="section-header">
+                <h2>技能清单</h2>
+            </div>
+            <div class="skills-content">
+                <div class="skill-category">
+                    <h3>前端技术</h3>
+                    <div class="skill-cloud">
+                        <div class="skill-tag" data-proficiency="95">HTML5</div>
+                        <div class="skill-tag" data-proficiency="90">CSS3</div>
+                        <div class="skill-tag" data-proficiency="85">JavaScript</div>
+                        <div class="skill-tag" data-proficiency="80">React</div>
+                        <div class="skill-tag" data-proficiency="75">Vue</div>
+                        <div class="skill-tag" data-proficiency="70">TypeScript</div>
+                        <div class="skill-tag" data-proficiency="65">Webpack</div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>后端技术</h3>
+                    <div class="skill-cloud">
+                        <div class="skill-tag" data-proficiency="70">Node.js</div>
+                        <div class="skill-tag" data-proficiency="60">Express</div>
+                        <div class="skill-tag" data-proficiency="55">MongoDB</div>
+                        <div class="skill-tag" data-proficiency="50">MySQL</div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>其他技能</h3>
+                    <div class="skill-cloud">
+                        <div class="skill-tag" data-proficiency="85">Git</div>
+                        <div class="skill-tag" data-proficiency="80">Linux</div>
+                        <div class="skill-tag" data-proficiency="75">UI/UX设计</div>
+                        <div class="skill-tag" data-proficiency="70">英语</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 求职者个人名片. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
